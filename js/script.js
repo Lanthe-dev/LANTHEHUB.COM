@@ -1,0 +1,154 @@
+// Wait for the page to fully load
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Create an audio element
+    const audio = new Audio();
+    audio.loop = true;
+    audio.volume = 0.3;
+    
+    // Determine the correct path based on current page location
+    const isInPagesFolder = window.location.pathname.includes('/pages/');
+    audio.src = isInPagesFolder ? '../assets/lofi-295209.mp3' : 'assets/lofi-295209.mp3';
+    
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    
+    let isPlaying = false;
+    
+    audio.play().then(() => {
+        isPlaying = true;
+        playPauseBtn.textContent = '🔊 Music On';
+    }).catch((error) => {
+        console.log('Auto-play blocked. User must click to start.');
+        playPauseBtn.textContent = '🔇 Click to Play';
+    });
+    
+    playPauseBtn.addEventListener('click', function() {
+        if (isPlaying) {
+            audio.pause();
+            playPauseBtn.textContent = '🔇 Music Off';
+            isPlaying = false;
+        } else {
+            audio.play();
+            playPauseBtn.textContent = '🔊 Music On';
+            isPlaying = true;
+        }
+    });
+    
+    volumeSlider.addEventListener('input', function() {
+        audio.volume = this.value / 100;
+    });
+});
+
+// Cursor trail effect - always connected to cursor
+const canvas = document.createElement('canvas');
+canvas.style.position = 'fixed';
+canvas.style.top = '0';
+canvas.style.left = '0';
+canvas.style.pointerEvents = 'none';
+canvas.style.zIndex = '9997';
+document.body.appendChild(canvas);
+
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+const points = [];
+let mouseX = 0;
+let mouseY = 0;
+let lastX = 0;
+let lastY = 0;
+let hasMovedMouse = false;
+
+document.addEventListener('mousemove', (e) => {
+    if (!hasMovedMouse) {
+        hasMovedMouse = true;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        return; // Skip first movement to avoid trail from center
+    }
+    
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    // Add interpolated points between last position and current position
+    const dx = mouseX - lastX;
+    const dy = mouseY - lastY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const steps = Math.max(1, Math.floor(distance / 5)); // Add point every 5 pixels
+    
+    for (let i = 1; i <= steps; i++) {
+        points.push({
+            x: lastX + (dx * i / steps),
+            y: lastY + (dy * i / steps),
+            time: Date.now()
+        });
+    }
+    
+    lastX = mouseX;
+    lastY = mouseY;
+});
+
+function drawTrail() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Only add points if mouse has moved
+    if (hasMovedMouse) {
+        points.push({ 
+            x: mouseX, 
+            y: mouseY,
+            time: Date.now()
+        });
+    }
+    
+    // Remove old points
+    const now = Date.now();
+    while (points.length > 0 && now - points[0].time > 300) {
+        points.shift();
+    }
+    
+    // Only draw if we have enough points AND mouse has moved
+    if (points.length > 1 && hasMovedMouse) {
+        // Draw glow first (behind)
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+            ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = 'rgba(107, 91, 149, 0.2)';
+        ctx.lineWidth = 15;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+        
+        // Draw main trail
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+            ctx.lineTo(points[i].x, points[i].y);
+        }
+        
+        const gradient = ctx.createLinearGradient(
+            points[0].x, points[0].y,
+            points[points.length - 1].x, points[points.length - 1].y
+        );
+        gradient.addColorStop(0, 'rgba(107, 91, 149, 0)');
+        gradient.addColorStop(0.5, 'rgba(107, 91, 149, 0.5)');
+        gradient.addColorStop(1, 'rgba(107, 91, 149, 0.9)');
+        
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 6;
+        ctx.stroke();
+    }
+    
+    requestAnimationFrame(drawTrail);
+}
+
+drawTrail();

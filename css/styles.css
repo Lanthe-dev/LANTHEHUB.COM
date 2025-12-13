@@ -1,0 +1,385 @@
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Main color scheme - cool purples and desaturated tones */
+:root {
+    --bg-dark: #1a1625;
+    --bg-medium: #2d2438;
+    --accent-purple: #6b5b95;
+    --text-light: #e0d9e8;
+    --text-muted: #a89bb8;
+}
+
+/* Body styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="%236b5b95" opacity="0.6"/></svg>') 10 10, auto;
+}
+
+/* Navigation Bar */
+header {
+    background-color: var(--bg-medium);
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+nav h2 {
+    color: var(--accent-purple);
+    font-size: 1.5rem;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: var(--accent-purple);
+}
+
+/* Add space below nav so content doesn't hide behind it */
+body {
+    padding-top: 80px;
+}
+
+/* Hero Section */
+#home {
+    text-align: center;
+    padding: 6rem 2rem;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-medium) 100%);
+}
+
+#home h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: var(--accent-purple);
+    text-shadow: 0 0 20px rgba(107, 91, 149, 0.5);
+    animation: fadeIn 2s ease-in;
+}
+
+#home p {
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    font-family: 'Courier New', monospace;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Links Section */
+#links {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#links h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--text-light);
+}
+
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.link-card {
+    background-color: var(--bg-medium);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.link-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(107, 91, 149, 0.4);
+    border-color: var(--accent-purple);
+}
+
+.link-card h3 {
+    color: var(--accent-purple);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.link-card p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-family: 'Courier New', monospace;
+}
+
+.link-card a {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--accent-purple);
+    border-radius: 5px;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.link-card a:hover {
+    background-color: var(--accent-purple);
+    color: var(--bg-dark);
+}
+
+.link-card .icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    filter: grayscale(30%);
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.link-card:hover .icon {
+    transform: scale(1.1) rotate(5deg);
+    filter: grayscale(0%);
+}
+
+/* Project Cards */
+.project-card {
+    background-color: var(--bg-medium);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(107, 91, 149, 0.4);
+    border-color: var(--accent-purple);
+}
+
+.project-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    filter: grayscale(30%);
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.project-card:hover .project-icon {
+    transform: scale(1.1) rotate(5deg);
+    filter: grayscale(0%);
+}
+
+.project-card h3 {
+    color: var(--accent-purple);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.project-card p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-family: 'Courier New', monospace;
+}
+
+.project-link {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--accent-purple);
+    border-radius: 5px;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.project-link:hover {
+    background-color: var(--accent-purple);
+    color: var(--bg-dark);
+}
+
+/* Projects Section */
+#projects {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--bg-dark);
+}
+
+#projects h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--text-light);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Content Pages (Poetry, Songs, Stories, Art) */
+#content-page {
+    padding: 6rem 2rem 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 60vh;
+}
+
+#content-page h1 {
+    text-align: center;
+    font-size: 3rem;
+    color: var(--accent-purple);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px rgba(107, 91, 149, 0.5);
+}
+
+.page-intro {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    font-family: 'Courier New', monospace;
+    margin-bottom: 3rem;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.content-item {
+    background-color: var(--bg-medium);
+    padding: 2rem;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(107, 91, 149, 0.3);
+    border-color: var(--accent-purple);
+}
+
+.content-item h3 {
+    color: var(--accent-purple);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.content-item .date {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 1rem;
+}
+
+.content-item p {
+    color: var(--text-light);
+    line-height: 1.8;
+}
+
+/* Art Gallery specific */
+.art-gallery {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Footer */
+footer {
+    background-color: var(--bg-medium);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 4rem;
+    border-top: 2px solid var(--accent-purple);
+}
+
+footer p {
+    color: var(--text-muted);
+    font-family: 'Courier New', monospace;
+}
+
+/* Music Player */
+.music-player {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+#playPauseBtn {
+    background-color: var(--accent-purple);
+    color: var(--text-light);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+}
+
+#playPauseBtn:hover {
+    transform: scale(1.05);
+}
+
+#volumeSlider {
+    width: 150px;
+}
+
+/* Grain texture overlay for lofi effect */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+}
