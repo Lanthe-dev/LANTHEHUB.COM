@@ -40,6 +40,66 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Contact Form Handler
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Show loading state
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate form submission (you can replace this with actual backend integration)
+            setTimeout(() => {
+                // Show success message
+                formStatus.className = 'form-status success';
+                formStatus.textContent = '✓ Message sent successfully! I\'ll get back to you soon.';
+                
+                // Reset form
+                contactForm.reset();
+                
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    formStatus.style.display = 'none';
+                }, 5000);
+                
+                // Log form data (for demo purposes)
+                console.log('Form submitted:', formData);
+                
+                // TODO: Replace with actual form submission to your backend
+                // Example using fetch:
+                // fetch('YOUR_FORM_ENDPOINT', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify(formData)
+                // })
+                // .then(response => response.json())
+                // .then(data => { /* handle success */ })
+                // .catch(error => { /* handle error */ });
+                
+            }, 1500);
+        });
+    }
+});
+
 // Cursor trail effect - always connected to cursor
 const canvas = document.createElement('canvas');
 canvas.style.position = 'fixed';
