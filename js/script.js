@@ -63,39 +63,47 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
             
-            // Simulate form submission (you can replace this with actual backend integration)
-            setTimeout(() => {
-                // Show success message
-                formStatus.className = 'form-status success';
-                formStatus.textContent = '✓ Message sent successfully! I\'ll get back to you soon.';
-                
-                // Reset form
-                contactForm.reset();
+            // Send form data to Cloudflare Pages Function
+            fetch('/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message
+                    formStatus.className = 'form-status success';
+                    formStatus.textContent = '✓ ' + data.message;
+                    
+                    // Reset form
+                    contactForm.reset();
+                } else {
+                    // Show error message
+                    formStatus.className = 'form-status error';
+                    formStatus.textContent = '✗ ' + data.message;
+                }
                 
                 // Reset button
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
                 
-                // Hide success message after 5 seconds
+                // Hide message after 5 seconds
                 setTimeout(() => {
                     formStatus.style.display = 'none';
                 }, 5000);
+            })
+            .catch(error => {
+                // Show error message
+                formStatus.className = 'form-status error';
+                formStatus.textContent = '✗ Failed to send message. Please try again.';
                 
-                // Log form data (for demo purposes)
-                console.log('Form submitted:', formData);
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
                 
-                // TODO: Replace with actual form submission to your backend
-                // Example using fetch:
-                // fetch('YOUR_FORM_ENDPOINT', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify(formData)
-                // })
-                // .then(response => response.json())
-                // .then(data => { /* handle success */ })
-                // .catch(error => { /* handle error */ });
-                
-            }, 1500);
+                console.error('Form submission error:', error);
+            });
         });
     }
 });
