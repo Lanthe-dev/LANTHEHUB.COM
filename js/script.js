@@ -1,43 +1,46 @@
 // Wait for the page to fully load
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Create an audio element
-    const audio = new Audio();
-    audio.loop = true;
-    audio.volume = 0.3;
-    
-    // Determine the correct path based on current page location
-    const isInPagesFolder = window.location.pathname.includes('/pages/');
-    audio.src = isInPagesFolder ? '../assets/lofi-295209.mp3' : 'assets/lofi-295209.mp3';
-    
     const playPauseBtn = document.getElementById('playPauseBtn');
     const volumeSlider = document.getElementById('volumeSlider');
     
-    let isPlaying = false;
-    
-    audio.play().then(() => {
-        isPlaying = true;
-        playPauseBtn.textContent = '🔊 Music On';
-    }).catch((error) => {
-        console.log('Auto-play blocked. User must click to start.');
-        playPauseBtn.textContent = '🔇 Click to Play';
-    });
-    
-    playPauseBtn.addEventListener('click', function() {
-        if (isPlaying) {
-            audio.pause();
-            playPauseBtn.textContent = '🔇 Music Off';
-            isPlaying = false;
-        } else {
-            audio.play();
-            playPauseBtn.textContent = '🔊 Music On';
+    // Only set up music player if elements exist
+    if (playPauseBtn && volumeSlider) {
+        // Create an audio element
+        const audio = new Audio();
+        audio.loop = true;
+        audio.volume = 0.3;
+        
+        // Determine the correct path based on current page location
+        const isInPagesFolder = window.location.pathname.includes('/pages/');
+        audio.src = isInPagesFolder ? '../assets/lofi-295209.mp3' : 'assets/lofi-295209.mp3';
+        
+        let isPlaying = false;
+        
+        audio.play().then(() => {
             isPlaying = true;
-        }
-    });
-    
-    volumeSlider.addEventListener('input', function() {
-        audio.volume = this.value / 100;
-    });
+            playPauseBtn.textContent = '🔊 Music On';
+        }).catch((error) => {
+            console.log('Auto-play blocked. User must click to start.');
+            playPauseBtn.textContent = '🔇 Click to Play';
+        });
+        
+        playPauseBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                playPauseBtn.textContent = '🔇 Music Off';
+                isPlaying = false;
+            } else {
+                audio.play();
+                playPauseBtn.textContent = '🔊 Music On';
+                isPlaying = true;
+            }
+        });
+        
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value / 100;
+        });
+    }
 });
 
 // Contact Form Handler
