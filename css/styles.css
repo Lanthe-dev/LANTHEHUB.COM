@@ -615,11 +615,7 @@ body::before {
     opacity: 0.4;
 }
 
-/* ========================================
-   RESPONSIVE DESIGN - MOBILE & TABLET
-   ======================================== */
-
-/* Tablets and smaller laptops (max-width: 1024px) */
+/* Responsive Design */
 @media (max-width: 1024px) {
     nav h2 {
         font-size: 1.3rem;
@@ -648,7 +644,7 @@ body::before {
     }
 }
 
-/* Tablets portrait mode (max-width: 768px) */
+/* Tablets portrait mode*/
 @media (max-width: 768px) {
     /* Navigation - Mobile Friendly */
     header {
@@ -761,7 +757,7 @@ body::before {
     }
 }
 
-/* Mobile phones (max-width: 480px) */
+/* Mobile phones */
 @media (max-width: 480px) {
     /* Navigation */
     nav h2 {
@@ -829,7 +825,7 @@ body::before {
     }
 }
 
-/* Very small phones (max-width: 320px) */
+/* Very small phones */
 @media (max-width: 320px) {
     #home h1 {
         font-size: 1.7rem;
