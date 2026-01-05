@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
             
-            // Send form data to Cloudflare Worker
-            fetch('https://contact-form-handler.starykitty2.workers.dev', {
+            // Send form data to Cloudflare Pages Function
+            fetch('/functions/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
