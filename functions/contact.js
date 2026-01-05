@@ -40,9 +40,7 @@ Time: ${new Date().toISOString()}
       body: JSON.stringify({
         personalizations: [
           {
-            to: [{ email: TO_EMAIL }],
-            dkim_domain: 'lanthehub.com',
-            dkim_selector: 'mailchannels',
+            to: [{ email: TO_EMAIL }]
           }
         ],
         from: {
