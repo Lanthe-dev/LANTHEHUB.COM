@@ -1,3 +1,14 @@
+// Handle CORS preflight
+export async function onRequestOptions() {
+  return new Response(null, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+}
+
 export async function onRequestPost(context) {
   try {
     const formData = await context.request.json();
@@ -62,7 +73,10 @@ Time: ${new Date().toISOString()}
       success: true, 
       message: 'Message received! I\'ll get back to you soon.' 
     }), {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
       status: 200
     });
     
@@ -72,7 +86,10 @@ Time: ${new Date().toISOString()}
       success: false, 
       message: 'Failed to send message. Please try again.' 
     }), {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
       status: 500
     });
   }

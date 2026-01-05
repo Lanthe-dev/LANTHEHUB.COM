@@ -72,12 +72,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             })
-            .then(response => response.json())
+            .then(response => {
+                // Check if response is OK
+                if (!response.ok) {
+                    // For local development, show a friendly message
+                    if (response.status === 405 || response.status === 404) {
+                        throw new Error('This form requires Cloudflare Pages deployment. Please deploy to Cloudflare Pages to test the contact form.');
+                    }
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                // Only parse JSON if we have content
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json();
+                } else {
+                    throw new Error('Invalid response from server');
+                }
+            })
             .then(data => {
                 if (data.success) {
                     // Show success message
                     formStatus.className = 'form-status success';
                     formStatus.textContent = '✓ ' + data.message;
+                    formStatus.style.display = 'block';
                     
                     // Reset form
                     contactForm.reset();
@@ -85,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Show error message
                     formStatus.className = 'form-status error';
                     formStatus.textContent = '✗ ' + data.message;
+                    formStatus.style.display = 'block';
                 }
                 
                 // Reset button
@@ -99,13 +118,19 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => {
                 // Show error message
                 formStatus.className = 'form-status error';
-                formStatus.textContent = '✗ Failed to send message. Please try again.';
+                formStatus.textContent = '✗ ' + error.message;
+                formStatus.style.display = 'block';
                 
                 // Reset button
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
                 
                 console.error('Form submission error:', error);
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    formStatus.style.display = 'none';
+                }, 5000);
             });
         });
     }
