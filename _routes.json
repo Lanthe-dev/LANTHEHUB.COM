@@ -1,5 +1,10 @@
 {
   "version": 1,
-  "include": ["/functions/*"],
-  "exclude": []
+  "routes": [
+    {
+      "pattern": "/functions/contact",
+      "methods": ["POST", "OPTIONS"],
+      "function": "contact"
+    }
+  ]
 }
