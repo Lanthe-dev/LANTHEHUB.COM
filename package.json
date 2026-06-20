@@ -1,0 +1,12 @@
+{
+  "name": "lanthehub",
+  "version": "1.0.0",
+  "description": "LantheHub - Personal website with contact form",
+  "main": "index.html",
+  "scripts": {
+    "deploy": "wrangler publish"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
