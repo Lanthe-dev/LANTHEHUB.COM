@@ -9,7 +9,17 @@ export async function onRequestOptions() {
   });
 }
 
-export async function onRequestPost(context) {
+export async function onRequest(context) {
+  if (context.request.method === 'OPTIONS') {
+    return onRequestOptions();
+  }
+  if (context.request.method === 'POST') {
+    return onRequestPost(context);
+  }
+  return new Response('Method not allowed', { status: 405 });
+}
+
+async function onRequestPost(context) {
   try {
     const formData = await context.request.json();
     
