@@ -39,7 +39,7 @@ export async function onRequestPost(context) {
     
     const TO_EMAIL = "contact@lanthehub.com";
     const FROM_EMAIL = "contact@lanthehub.com";
-    
+
     const emailContent = `
 New Contact Form Submission from LantheHub.com
 
@@ -54,47 +54,31 @@ ${formData.message}
 Sent from: ${context.request.headers.get('CF-Connecting-IP')}
 Time: ${new Date().toISOString()}
     `.trim();
-    
+
     console.log('Sending email...');
-    
-    // Send email via MailChannels
-    const emailResponse = await fetch('https://api.mailchannels.net/tx/v1/send', {
+
+    // Send email via Resend
+    const emailResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${context.env.RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        personalizations: [
-          {
-            to: [{ email: TO_EMAIL }],
-            dkim_domain: 'lanthehub.com',
-            dkim_selector: 'mailchannels',
-          }
-        ],
-        from: {
-          email: FROM_EMAIL,
-          name: 'LantheHub Contact Form'
-        },
-        reply_to: {
-          email: formData.email,
-          name: formData.name
-        },
+        from: `LantheHub Contact Form <${FROM_EMAIL}>`,
+        to: [TO_EMAIL],
+        reply_to: formData.email,
         subject: `Contact Form: ${formData.subject}`,
-        content: [
-          {
-            type: 'text/plain',
-            value: emailContent
-          }
-        ]
+        text: emailContent
       })
     });
 
-    console.log('MailChannels response status:', emailResponse.status);
+    console.log('Resend response status:', emailResponse.status);
 
     if (!emailResponse.ok) {
       const errorText = await emailResponse.text();
-      console.error('MailChannels error:', errorText);
-      throw new Error(`MailChannels API error: ${emailResponse.status} - ${errorText}`);
+      console.error('Resend error:', errorText);
+      throw new Error(`Resend API error: ${emailResponse.status} - ${errorText}`);
     }
 
     console.log('Email sent successfully');
