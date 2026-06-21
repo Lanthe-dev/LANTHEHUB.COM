@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = true;
             
             // Send form data to Cloudflare Pages Function
+            // Endpoint: /contact (Cloudflare Pages auto-routes functions/)
             fetch('/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
