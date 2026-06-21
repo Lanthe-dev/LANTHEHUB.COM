@@ -21,7 +21,18 @@ export async function onRequest(context) {
 
 export async function onRequestPost(context) {
   try {
-    const formData = await context.request.json();
+    let formData;
+    try {
+      formData = await context.request.json();
+    } catch (parseErr) {
+      return new Response(JSON.stringify({ 
+        success: false, 
+        message: `JSON parse error: ${parseErr.message}` 
+      }), {
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+        status: 400
+      });
+    }
     
     const TO_EMAIL = "contact@lanthehub.com";
     const FROM_EMAIL = "contact@lanthehub.com";
