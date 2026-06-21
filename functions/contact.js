@@ -94,7 +94,7 @@ Time: ${new Date().toISOString()}
     console.error('Contact form error:', error);
     return new Response(JSON.stringify({ 
       success: false, 
-      message: 'Failed to send message. Please try again.' 
+      message: error.message 
     }), {
       headers: { 
         'Content-Type': 'application/json',
