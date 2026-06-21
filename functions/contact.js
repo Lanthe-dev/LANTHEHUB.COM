@@ -1,4 +1,4 @@
-// Handle CORS preflight
+// Requires RESEND_API_KEY set as a Pages secret (Settings > Environment variables)
 export async function onRequestOptions() {
   return new Response(null, {
     headers: {
