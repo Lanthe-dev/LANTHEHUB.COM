@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = true;
             
             // Send form data to Cloudflare Pages Function
-            fetch('/functions/contact', {
+            fetch('/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
